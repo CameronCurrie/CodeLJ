@@ -40,8 +40,8 @@ dt = 0.1
 tValue = [time]
 xposValue = [p1.position[0]]
 yposValue = [p1.position[1]]
-
-potential =  -G*p2.mass*p1.mass/vc.mag(p.Seperation(p1.position, p2.position))
+zposValue = [p1.position[2]]
+potential = 4*((1/vc.mag(p.Seperation(p2.position, p1.position))**12)-(1/vc.mag(p.Seperation(p2.position, p1.position))**6))
 
 #set up energy lists
 kineticValue = [p1.kineticenergy()]
@@ -50,9 +50,9 @@ potentialValue = [potential]
 
 energyValue = [p1.kineticenergy()+potential]
 #Initial force
-Force = 48*((1/vc.mag(p.Seperation(p2.position, p1.position))**14)-(0.5/vc.mag(p.Seperation(p2.position, p1.position))**8))*p.Seperation(particle1,particle2
 
-def VerletIntegration ()
+def VerletIntegration(dt,particle):
+    Force = 48*((1/vc.mag(p.Seperation(p2.position, p1.position))**14)-(0.5/vc.mag(p.Seperation(p2.position, p1.position))**8))*p.Seperation(particle1,particle2)
 
 """We need to make this work for all particles"""
     for i in range(numstep):
@@ -66,7 +66,7 @@ def VerletIntegration ()
         p1.leapVelocity(dt,0.5*(Force+Force_new))
 
         #Update the different types of energy
-        potential = - G*p2.mass*p1.mass/vc.mag(p.Seperation(p1.position, p2.position))
+        potential = 4*((1/vc.mag(p.Seperation(p2.position, p1.position))**12)-(1/vc.mag(p.Seperation(p2.position, p1.position))**6))
         p1.kineticenergy()
 
         #Reset force
